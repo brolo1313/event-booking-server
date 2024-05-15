@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const participantSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  dateOfBirthday: { type: Date, required: true },
-  foundUsBy: { type: String, required: true }
-});
+const participantSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    dateOfBirthday: { type: Date, required: true },
+    foundUsBy: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const eventSchema = new mongoose.Schema(
   {
@@ -32,7 +37,7 @@ const eventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    participants: [participantSchema]
+    participants: [participantSchema],
   },
   {
     timestamps: true,
