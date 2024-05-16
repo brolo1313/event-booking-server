@@ -17,13 +17,37 @@ const getAllEvents = async (req, res, next) => {
     result.totalEvents = totalEvents;
     result.totalPages = totalPages;
 
-    // Parse sorting parameters
-    let sortQuery = {};
-    if (req.query.sortBy) {
-      const sortBy = req.query.sortBy;
-      const sortOrder = req.query.sortOrder || "asc";
-      sortQuery[sortBy] = sortOrder === "desc" ? -1 : 1;
+    // Fetch all data without sorting
+    const allEvents = await Event.find().exec();
+
+    const sortBy = req.query.sortBy || 'eventDate';
+    const sortOrder = req.query.sortOrder === "desc" ? -1 : 1; // default sorting order is ascending
+
+    if (sortBy === 'title') {
+      // Custom sort for titles based on numerical part
+      allEvents.sort((a, b) => {
+        const getNumber = title => parseInt(title.match(/\d+/)?.[0], 10) || 0;
+        const numA = getNumber(a.title);
+        const numB = getNumber(b.title);
+        return sortOrder * (numA - numB);
+      });
+    } else if (sortBy === 'eventDate') {
+      // Sort by eventDate
+      allEvents.sort((a, b) => {
+        const dateA = new Date(a.eventDate);
+        const dateB = new Date(b.eventDate);
+        return sortOrder * (dateA - dateB);
+      });
+    } else {
+      allEvents.sort((a, b) => {
+        if (a[sortBy] < b[sortBy]) return -1 * sortOrder;
+        if (a[sortBy] > b[sortBy]) return 1 * sortOrder;
+        return 0;
+      });
     }
+
+    // Paginate the sorted data
+    const paginatedEvents = allEvents.slice(startIndex, endIndex);
 
     // Calculate previous page
     if (pageNumber > 1) {
@@ -41,13 +65,7 @@ const getAllEvents = async (req, res, next) => {
       };
     }
 
-    // Fetch data with the new start index and sorting
-    result.data = await Event.find()
-      .sort(sortQuery)
-      .skip(startIndex)
-      .limit(limit)
-      .exec();
-
+    result.items = paginatedEvents;
     result.limit = limit;
 
     return res.json({ msg: "Post Fetched successfully", data: result });
@@ -55,6 +73,7 @@ const getAllEvents = async (req, res, next) => {
     next(error);
   }
 };
+
 
 const registerOnEvent = async (req, res, next) => {
   const { name, email, dateOfBirthday, foundUsBy, eventId } = req.body;

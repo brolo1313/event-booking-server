@@ -5,8 +5,9 @@ async function createEvents() {
     const events = [];
     const currentDay = new Date();
     const minDate = new Date(currentDay.getTime());
+    const countOfElements = 100;
   
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < countOfElements; i++) {
       const randomDate = new Date(minDate.getTime() + Math.random() * (365 * 24 * 60 * 60 * 1000));
       const event = new Event({
         title: `Event ${i + 1}`,
