@@ -6,7 +6,7 @@ const Result = require("../helpers/result");
 const getAllEvents = async (req, res, next) => {
   try {
     const pageNumber = parseInt(req.query.pageNumber) || 1; // Start page numbers at 1
-    const limit = parseInt(req.query.limit) || 4;
+    const limit = parseInt(req.query.limit) || 10;
     const result = {};
     const totalEvents = await Event.countDocuments().exec();
 
