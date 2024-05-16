@@ -14,7 +14,7 @@ const successMsg = chalk.bgKeyword("green").white;
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: ["http://localhost:4202", "http://localhost:4201", "https://event-booking-client-gamma.vercel.app/"],
+  origin: ["http://localhost:4202", "http://localhost:4201", "https://event-booking-client-gamma.vercel.app"],
 };
 
 
