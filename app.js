@@ -13,7 +13,12 @@ const successMsg = chalk.bgKeyword("green").white;
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const corsOptions = {
+  origin: ["http://localhost:4202", "http://localhost:4201", "https://mean-sand-box-fe.vercel.app", "https://education-io.vercel.app"],
+};
+
+
+app.use(cors(corsOptions));
 
 const apiProfileRoutes = require("./routes/api-event-routes");
 
