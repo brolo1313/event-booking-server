@@ -20,7 +20,7 @@ const getAllEvents = async (req, res, next) => {
     // Fetch all data without sorting
     const allEvents = await Event.find().exec();
 
-    const sortBy = req.query.sortBy || 'eventDate';
+    const sortBy = req.query.sortBy || 'title';
     const sortOrder = req.query.sortOrder === "desc" ? -1 : 1; // default sorting order is ascending
 
     if (sortBy === 'title') {
