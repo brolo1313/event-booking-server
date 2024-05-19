@@ -13,8 +13,15 @@ const successMsg = chalk.bgKeyword("green").white;
 
 const PORT = process.env.PORT || 3000;
 
+// const corsOptions = {
+//   origin: ["http://localhost:4202", "http://localhost:4201", "https://event-booking-client-gamma.vercel.app"],
+// };
+
 const corsOptions = {
-  origin: ["http://localhost:4202", "http://localhost:4201", "https://event-booking-client-gamma.vercel.app"],
+  origin: '*', // Allow requests from any origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow all standard methods
+  allowedHeaders: 'Content-Type,Authorization', // Allow specific headers
+  credentials: true // Allow credentials (cookies, authorization headers, etc.)
 };
 
 
